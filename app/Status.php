@@ -9,21 +9,24 @@ class Status extends Model
     // white list
     protected $fillable = ['title', 'slug', 'order'];
 
-    // タイムスタンプを削除した場合
-    //public $timestamps = false;
-
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function tasks ()
     {
         return $this->hasMany(Task::class)->orderBy('order');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function user ()
     {
         return $this->belongsTo(User::class);
     }
 
     /**
-     * 親を消した際に、関連タスクを削除するため
+     * ステータス削除時に、関連タスクを削除する
      */
     public static function boot ()
     {

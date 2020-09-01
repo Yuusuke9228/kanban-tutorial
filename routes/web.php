@@ -4,8 +4,13 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
-    return view('welcome');
+    if (Auth::user()) {
+        return redirect()->route('home');
+    }
+
+    return redirect('/login');
 });
+
 Auth::routes();
 
 Route::get('/home', function () {
@@ -22,6 +27,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::group(['middleware' => 'auth'], function () {
     Route::post('statuses', 'StatusController@store')->name('statuses.store');
-    Route::put('statuses', 'StatusController@update')->name('statuses.update'); //should be implemented.
+    Route::put('statuses/sync', 'StatusController@sync')->name('statuses.sync');
+    Route::put('statuses/{status}', 'StatusController@update')->name('statuses.update'); //should be implemented.
     Route::delete('statuses/{status}', 'StatusController@destroy')->name('statuses.destroy');
 });

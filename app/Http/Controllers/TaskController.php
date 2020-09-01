@@ -7,12 +7,25 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
+    /**
+     * カンバンボードを表示
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         $tasks = auth()->user()->statuses()->with('tasks')->get();
+
         return view('tasks.index', compact('tasks'));
     }
 
+    /**
+     * タスクカードを追加
+     *
+     * @param Request $request
+     * @return mixed
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -26,6 +39,13 @@ class TaskController extends Controller
             ->create($request->only('title', 'description', 'status_id'));
     }
 
+    /**
+     * タスクの並び順を更新
+     *
+     * @param Request $request
+     * @return mixed
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function sync(Request $request)
     {
         $this->validate(request(), [
@@ -46,11 +66,23 @@ class TaskController extends Controller
         return $request->user()->statuses()->with('tasks')->get();
     }
 
+    /**
+     * @TODO タスクを更新
+     *
+     * @param Request $request
+     * @param Task $task
+     */
     public function update(Request $request, Task $task)
     {
-        $task = Task::find($task);
+        //should be implemented.
     }
 
+    /**
+     * タスクを削除
+     *
+     * @param int $taskId
+     * @return int
+     */
     public function destroy(int $taskId)
     {
         $del_task = Task::find($taskId);

@@ -50,12 +50,13 @@ export default {
             newTask: {
                 title: "",
                 description: "",
+                order: 0,
                 status_id: null
             },
             errorMessage: ""
         };
     },
-    mounted() {
+    mounted () {
         this.newTask.status_id = this.statusId;
     },
     methods: {
@@ -77,7 +78,7 @@ export default {
                     this.handleErrors(err);
                 });
         },
-        handleErrors(err) {
+        handleErrors (err) {
             if (err.response && err.response.status === 422) {
                 // リクエストから返されたエラーを処理する
                 const errorBag = err.response.data.errors;

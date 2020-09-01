@@ -54,7 +54,7 @@ export default {
     props: {
         maxOrderNo: Number
     },
-    data() {
+    data () {
         return {
             newStatus: {
                 title: "",
@@ -64,11 +64,11 @@ export default {
             errorMessage: "",
         };
     },
-    mounted() {
+    mounted () {
         this.newStatus.order = this.maxOrderNo + 1;
     },
     methods: {
-        handleAddNewStatus() {
+        handleAddNewStatus () {
             if (!this.newStatus.title) {
                 this.errorMessage = "タイトルは必須です";
                 return;
@@ -82,7 +82,7 @@ export default {
                     this.handleErrors(err);
                 });
         },
-        handleErrors(err) {
+        handleErrors (err) {
             if (err.response && err.response.status === 422) {
                 const errorBag = err.response.data.errors;
                 if (errorBag.title) {

@@ -38,16 +38,27 @@ class User extends Authenticatable
     ];
 
     //=========追記===========
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function tasks()
     {
         return $this->hasMany(Task::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function statuses()
     {
         return $this->hasMany(Status::class)->orderBy('order');
     }
 
+    /**
+     * ユーザー作成時にデフォルトステータスを作成
+     * ※動作確認を行いやすくする為
+     */
     protected static function booted()
     {
         static::created(function ($user) {
